@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RaspberryServer", "RaspberryServer\RaspberryServer.vcxproj", "{F43B1DBC-0536-4CCC-A861-EB2A1397984A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TEST_APP", "TEST_APP\TEST_APP.vcxproj", "{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TEST_MICROCONTROLLER", "TEST_MICROCONTROLLER\TEST_MICROCONTROLLER.vcxproj", "{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +25,22 @@ Global
 		{F43B1DBC-0536-4CCC-A861-EB2A1397984A}.Release|x64.Build.0 = Release|x64
 		{F43B1DBC-0536-4CCC-A861-EB2A1397984A}.Release|x86.ActiveCfg = Release|Win32
 		{F43B1DBC-0536-4CCC-A861-EB2A1397984A}.Release|x86.Build.0 = Release|Win32
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Debug|x64.ActiveCfg = Debug|x64
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Debug|x64.Build.0 = Debug|x64
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Debug|x86.ActiveCfg = Debug|Win32
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Debug|x86.Build.0 = Debug|Win32
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Release|x64.ActiveCfg = Release|x64
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Release|x64.Build.0 = Release|x64
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Release|x86.ActiveCfg = Release|Win32
+		{DAC23C58-2D7F-4B50-A08A-D7CD6813AF65}.Release|x86.Build.0 = Release|Win32
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Debug|x64.ActiveCfg = Debug|x64
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Debug|x64.Build.0 = Debug|x64
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Debug|x86.ActiveCfg = Debug|Win32
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Debug|x86.Build.0 = Debug|Win32
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Release|x64.ActiveCfg = Release|x64
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Release|x64.Build.0 = Release|x64
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Release|x86.ActiveCfg = Release|Win32
+		{1B842F9F-C21D-4A1B-8E8E-F8F9A6456D0F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
