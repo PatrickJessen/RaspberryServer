@@ -3,7 +3,7 @@
 
 static std::mutex message_mutex;
 
-// Message class uses template to be able to expand it in the future to be able to send objects.
+// Message class uses template to be able to expand it in the future so we can recieve and send different objects over socket
 template <typename T>
 class Message
 {
