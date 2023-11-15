@@ -19,13 +19,14 @@ public:
 	Component GetComponentType() { return component; }
 	const int& GetId() { return id; }
 	Message<std::string>* GetMessages() { return message; }
+	const bool IsConnected() { return connected; }
 	void SetConnectionStatus(const bool status) { connected = status; }
 private:
 	tcp::socket m_socket;
-	int id;
 	Component component = Component::NONE;
+	Message<std::string>* message = nullptr;
 	enum {BUFFER_SIZE = 1024};
-	char data[BUFFER_SIZE];
+	char data[BUFFER_SIZE]{};
 	bool connected = false;
-	Message<std::string>* message = nullptr; // TODO: USE THIS IN SERVER.H INSTEAD OF HERE (take a message reference in DoRead() parameters)
+	int id = 0;
 };

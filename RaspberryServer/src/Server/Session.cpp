@@ -6,7 +6,7 @@
 #include <iostream>
 
 Session::Session(int id, tcp::socket socket)
-    : m_socket(std::move(socket))
+    : m_socket(std::move(socket)), id(id)
 {
     message = new Message<std::string>();
 }
@@ -42,7 +42,7 @@ void Session::DoRead()
                         if (data != "") {
                             message->PushBack(std::string(data, length));
                             if (!message->GetQueue().empty()) {
-                                std::cout << "Message received: " << message->GetQueue().back().c_str() << std::endl;
+                                std::cout << "Message received from id " << id << ": " << message->GetQueue().back().c_str() << std::endl;
                             }
                             if (!connected) {
                                 component = (Component)atoi(message->GetQueue().back().c_str());
@@ -62,9 +62,6 @@ void Session::DoRead()
                             }
                         }
                         DoRead();
-                    }
-                    else {
-                        // Handle read error
                     }
             });
     }

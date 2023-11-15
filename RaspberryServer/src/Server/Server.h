@@ -14,10 +14,12 @@ public:
 private:
 	void AcceptSession();
 	void MessageThread();
+	const bool CheckForDisconnection(const int& i);
 private:
 	io_service& service;
 	tcp::acceptor acceptor;
 	std::vector<std::shared_ptr<Session>> sessions;
+	Message<std::string>* message = nullptr;
 	int nextId = 0;
 	bool running = false;
 	std::thread message_thread;

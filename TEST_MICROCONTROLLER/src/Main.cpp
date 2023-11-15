@@ -36,7 +36,7 @@ void getData(tcp::socket& socket)
 
 void sendData(tcp::socket& socket, const std::string& message)
 {
-    write(socket, buffer(message));
+    write(socket, buffer(message + "\n"));
 }
 
 int main(int argc, char* argv[])
@@ -46,23 +46,24 @@ int main(int argc, char* argv[])
     // socket creation
     ip::tcp::socket client_socket(io_service);
 
-    //client_socket.connect(tcp::endpoint(address::from_string("192.168.1.112"), 9999));
     client_socket.connect(tcp::endpoint(address::from_string("127.0.0.1"), 9999));
     connected = true;
+
     sendData(client_socket, std::to_string((int)Component::MICROCONTROLLER));
     std::string response;
 
     std::thread(&getData, std::ref(client_socket)).detach();
 
+    std::vector<std::string> messages = { "Test Microcontroller", "Microcontroller data", "another Microcontroller message", "testing Microcontroller message" };
+
     while (true) {
         try
         {
-            float temp = rand() % 100;
-            std::string reply = "Temp ";
-            reply.append(std::to_string(temp));
-            sendData(client_socket, reply);
+            int r = rand() % messages.size();
+            std::string msg = messages[r];
+            sendData(client_socket, msg);
+            std::cout << "Send message: " << msg << "\n";
 
-            std::cout << "Sent message: " << reply << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         }
         catch (std::exception e)
@@ -75,7 +76,6 @@ int main(int argc, char* argv[])
             {
                 try
                 {
-
                     client_socket.connect(tcp::endpoint(address::from_string("127.0.0.1"), 9999));
                     std::cout << "Reconnected\n";
                     connected = true;

@@ -17,11 +17,20 @@ void getData(tcp::socket& socket)
 {
     while (true)
     {
-        streambuf buf;
-        read_until(socket, buf, "\n");
-        std::string data = buffer_cast<const char*>(buf.data());
-        message = data;
-        std::cout << "Received message: " << message << std::endl;
+        try
+        {
+
+            message = "";
+            streambuf buf;
+            read_until(socket, buf, "\n");
+            std::string data = buffer_cast<const char*>(buf.data());
+            message = data;
+            std::cout << "Received message: " << message << std::endl;
+        }
+        catch (std::exception e)
+        {
+            //std::cout << e.what() << "\n";
+        }
     }
 }
 
@@ -45,10 +54,13 @@ int main(int argc, char* argv[])
 
     std::thread(&getData, std::ref(client_socket)).detach();
 
+    std::vector<std::string> messages = { "Test app", "APP data", "another app message", "testing app message" };
+
     while (true) {
         try
         {
-            std::string msg = "Message sent to server!";
+            int r = rand() % messages.size();
+            std::string msg = messages[r];
             sendData(client_socket, msg);
             std::cout << "Send message: " << msg << "\n";
 

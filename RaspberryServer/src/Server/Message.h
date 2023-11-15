@@ -1,6 +1,9 @@
 #pragma once
 #include <mutex>
 
+static std::mutex message_mutex;
+
+// Message class uses template to be able to expand it in the future to be able to send objects.
 template <typename T>
 class Message
 {
@@ -13,12 +16,11 @@ public:
 
 	void PopFront()
 	{
-		//std::lock_guard<std::mutex> lock(message_mutex);
+		std::lock_guard<std::mutex> lock(message_mutex);
 		msgQueue.erase(msgQueue.begin());
-		Unlock();
 	}
 
-	void Unlock()
+	static void Unlock()
 	{
 		message_mutex.unlock();
 	}
@@ -31,7 +33,6 @@ public:
 	std::vector<int> GetOwners() { return messageOwners; }
 	void AddOwner(const int& owner) { messageOwners.push_back(owner); }
 private:
-	std::mutex message_mutex;
 	std::vector<T> msgQueue{};
 	std::vector<int> messageOwners;
 };
