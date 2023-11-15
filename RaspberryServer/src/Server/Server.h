@@ -14,7 +14,7 @@ public:
 private:
 	void AcceptSession();
 	void MessageThread();
-	const bool CheckForDisconnection(const int& i);
+	void CheckForDisconnection();
 private:
 	io_service& service;
 	tcp::acceptor acceptor;
@@ -23,4 +23,5 @@ private:
 	int nextId = 0;
 	bool running = false;
 	std::thread message_thread;
+	std::thread disconnect_thread;
 };

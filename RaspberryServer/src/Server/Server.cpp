@@ -15,12 +15,14 @@ void Server::Start()
     running = true;
     AcceptSession();
     message_thread = std::thread(&Server::MessageThread, this);
+    disconnect_thread = std::thread(&Server::CheckForDisconnection, this);
 }
 
 void Server::Stop()
 {
     running = false;
     message_thread.join();
+    disconnect_thread.join();
 }
 
 void Server::AcceptSession()
@@ -55,9 +57,6 @@ void Server::MessageThread()
         for (int i = 0; i < sessions.size(); i++) {
             try
             {
-                /*if (CheckForDisconnection(i)) {
-                    continue;
-                }*/
                 Message<std::string>* msg = sessions[i]->GetMessages();
                 if (msg->GetQueue().empty()) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -92,32 +91,33 @@ void Server::MessageThread()
     }
 }
 
-const bool Server::CheckForDisconnection(const int& i)
+void Server::CheckForDisconnection()
 {
-    try
-    {
-        if (sessions[i] != nullptr) {
-            if (!sessions[i]->IsConnected()) {
-                if (sessions[i]->GetComponentType() == Component::APP) {
-                    std::cout << "APP disconnected\n";
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        for (int i = 0; i < sessions.size(); i++) {
+            try
+            {
+                if (sessions[i] != nullptr) {
+                    if (!sessions[i]->IsConnected()) {
+                        if (sessions[i]->GetComponentType() == Component::APP) {
+                            std::cout << "APP disconnected\n";
+                        }
+                        else if (sessions[i]->GetComponentType() == Component::MICROCONTROLLER) {
+                            std::cout << "MICROCONTROLLER disconnected\n";
+                        }
+                        sessions.erase(sessions.begin() + i);
+                    }
                 }
-                else if (sessions[i]->GetComponentType() == Component::MICROCONTROLLER) {
-                    std::cout << "MICROCONTROLLER disconnected\n";
+                else {
+                    std::cout << "Error: " << i << "\n";
                 }
+            }
+            catch (std::exception e)
+            {
+                std::cout << e.what() << std::endl;
                 sessions.erase(sessions.begin() + i);
-                return true;
             }
         }
-        else {
-            std::cout << "Error: " << i << "\n";
-        }
-        return false;
     }
-    catch (std::exception e)
-    {
-        std::cout << e.what() << std::endl;
-        sessions.erase(sessions.begin() + i);
-        return true;
-    }
-    return false;
 }
