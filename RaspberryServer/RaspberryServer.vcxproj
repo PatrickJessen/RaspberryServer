@@ -130,10 +130,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Server\Handlers\AsioServerHandler.cpp" />
+    <ClCompile Include="src\Server\Handlers\AsioSessionHandler.cpp" />
+    <ClCompile Include="src\Server\Managers\ServerManager.cpp" />
+    <ClCompile Include="src\Server\Managers\SessionManager.cpp" />
     <ClCompile Include="src\Server\Server.cpp" />
     <ClCompile Include="src\Server\Session.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Server\Handlers\AsioServerHandler.h" />
+    <ClInclude Include="src\Server\Handlers\AsioSessionHandler.h" />
+    <ClInclude Include="src\Server\Interfaces\IServer.h" />
+    <ClInclude Include="src\Server\Interfaces\ISession.h" />
+    <ClInclude Include="src\Server\Managers\ServerManager.h" />
+    <ClInclude Include="src\Server\Managers\SessionManager.h" />
     <ClInclude Include="src\Server\Message.h" />
     <ClInclude Include="src\Server\Server.h" />
     <ClInclude Include="src\Server\Session.h" />
