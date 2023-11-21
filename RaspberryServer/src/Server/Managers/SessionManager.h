@@ -4,7 +4,7 @@
 class SessionManager
 {
 public:
-	SessionManager(ISession<void*>* session);
+	SessionManager(ISession<std::string>* session);
 	~SessionManager();
 
 public:
@@ -13,7 +13,7 @@ public:
 	void IsAlive() { session->IsAlive(); }
 	const bool GetIsAlive() { return session->isAlive; }
 	const SessionType& GetSessionType();
-	virtual Message<void*>* GetMessageObj() { return session->GetMessageObj(); }
+	virtual Message<std::string>* GetMessageObj() { return session->GetMessageObj(); }
 private:
-	ISession<void*>* session = nullptr;
+	ISession<std::string>* session = nullptr;
 };

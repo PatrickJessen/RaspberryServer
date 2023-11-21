@@ -13,10 +13,10 @@ AsioServerHandler::AsioServerHandler(io_service& service, int port)
 
 void AsioServerHandler::Connect(const std::string& ipAdress, const int& port)
 {
+    running = true;
 	service.run();
     ListenForConnectionAsync();
     message_thread = std::thread(&AsioServerHandler::HandleMessages, this);
-    running = true;
 }
 
 void AsioServerHandler::Disconnect()

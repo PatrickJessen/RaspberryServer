@@ -1,6 +1,6 @@
 #include "SessionManager.h"
 
-SessionManager::SessionManager(ISession* session)
+SessionManager::SessionManager(ISession<std::string>* session)
 	: session(session)
 {
 }

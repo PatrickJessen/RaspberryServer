@@ -1,6 +1,7 @@
 #pragma once
 #include <mutex>
 
+static std::mutex message_mutex;
 // Message class uses template to be able to expand it in the future so we can recieve and send different objects over socket
 template <typename T>
 class Message
@@ -8,19 +9,19 @@ class Message
 public:
 	void PushBack(const T& msg)
 	{
-		std::lock_guard<std::mutex> lock(Message<T>::message_mutex);
+		std::lock_guard<std::mutex> lock(message_mutex);
 		msgQueue.push_back(msg);
 	}
 
 	void PopFront()
 	{
-		std::lock_guard<std::mutex> lock(Message<T>::message_mutex);
+		std::lock_guard<std::mutex> lock(message_mutex);
 		msgQueue.erase(msgQueue.begin());
 	}
 
 	static void Unlock()
 	{
-		Message<T>::message_mutex.unlock();
+		message_mutex.unlock();
 	}
 
 	void Clear()
@@ -33,5 +34,4 @@ public:
 private:
 	std::vector<T> msgQueue{};
 	std::vector<int> messageOwners;
-	static std::mutex message_mutex;
 };
