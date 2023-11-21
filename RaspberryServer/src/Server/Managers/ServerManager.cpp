@@ -8,17 +8,21 @@ ServerManager::ServerManager(IServer* server)
 
 ServerManager::~ServerManager()
 {
-	delete server;
+	
 }
 
 void ServerManager::Connect(const std::string& ipAdress, const int& port)
 {
+    running = true;
+    ListenForConnectionAsync();
+    message_thread = std::thread(&ServerManager::HandleMessages, this);
 	server->Connect(ipAdress, port);
 }
 
 void ServerManager::Disconnect()
 {
 	server->Disconnect();
+    message_thread.join();
 }
 
 void ServerManager::ListenForConnectionAsync()
@@ -33,12 +37,12 @@ void ServerManager::HandleDisconnection()
 
 void ServerManager::HandleMessages()
 {
-    while (running) {
+    while (server->running) {
         for (int i = 0; i < server->sessions.size(); i++) {
             try
             {
                 HandleDisconnection();
-                Message<std::string>* msg = (Message<std::string>*)server->sessions[i]->GetMessageObj();
+                Message<std::string>* msg = server->sessions[i]->GetMessageObj();
                 if (msg->GetQueue().empty()) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
                     continue;
@@ -58,7 +62,7 @@ void ServerManager::HandleMessages()
                             }
                             catch (std::exception e)
                             {
-
+                                std::cout << "ServerManager::HandleMessages() Exception caught: Failed to send message. " << e.what() << "\n";
                             }
                         }
                     }
@@ -66,7 +70,7 @@ void ServerManager::HandleMessages()
             }
             catch (std::exception e)
             {
-                std::cout << "AsioServerHandler::HandleMessages() Exception caught: " << e.what() << "\n";
+                std::cout << "ServerManager::HandleMessages() Exception caught: " << e.what() << "\n";
             }
         }
     }

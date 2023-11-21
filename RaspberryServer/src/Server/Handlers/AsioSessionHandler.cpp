@@ -2,8 +2,12 @@
 #include <iostream>
 
 AsioSessionHandler::AsioSessionHandler(int id, tcp::socket socket)
-	: id(id), socket(std::move(socket))
+	: socket(std::move(socket))
 {
+    message = new Message<std::string>();
+    this->id = id;
+    isAlive = false;
+    type = SessionType::NONE;
 }
 
 void AsioSessionHandler::SendMessageAsync(const std::string& message)
@@ -29,9 +33,9 @@ void AsioSessionHandler::ReadMessageAsync()
 {
     try
     {
-        auto self(this);
+        //auto self(this);
         socket.async_read_some(buffer(data, BUFFER_SIZE),
-            [this, self](boost::system::error_code ec,
+            [this](boost::system::error_code ec,
                 std::size_t length) {
                     if (!ec) {
                         if (data != "") {
@@ -78,7 +82,12 @@ void AsioSessionHandler::IsAlive()
         }
         catch (std::exception e)
         {
-            std::cout << "AsioSessionHandler::IsAlive() Exception caught: " << e.what() << "\n";
+            if (type == SessionType::APP) {
+                std::cout << "APP Session Id " << id << " disconnected\n";
+            }
+            else if (type == SessionType::MICROCONTROLLER) {
+                std::cout << "Microcontroller Session Id " << id << " disconnected\n";
+            }
             isAlive = false;
         }
     }

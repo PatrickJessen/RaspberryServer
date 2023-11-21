@@ -11,11 +11,14 @@ public:
 public:
 	void Connect(const std::string& ipAdress, const int& port);
 	void Disconnect();
+
+private:
 	void ListenForConnectionAsync();
 	void HandleDisconnection();
 	void HandleMessages();
 
 private:
-	IServer* server = nullptr;
+	std::shared_ptr<IServer> server = nullptr;
 	bool running = false;
+	std::thread message_thread;
 };

@@ -13,6 +13,7 @@ template <typename T>
 class ISession
 {
 public:
+	virtual ~ISession() = default;
 	virtual void SendMessageAsync(const std::string& message) = 0;
 	virtual void ReadMessageAsync() = 0;
 	/// <summary>
@@ -24,9 +25,4 @@ public:
 	virtual const bool GetIsAlive() = 0;
 	virtual const SessionType& GetSessionType() = 0;
 	virtual Message<T>* GetMessageObj() = 0;
-public:
-	SessionType type;
-	Message<T>* message;
-	int id;
-	bool isAlive;
 };

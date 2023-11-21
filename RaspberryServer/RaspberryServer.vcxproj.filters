@@ -18,16 +18,7 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Server\Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Server\Session.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Server\Managers\ServerManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Server\Managers\SessionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Server\Handlers\AsioServerHandler.cpp">
@@ -38,13 +29,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Server\Session.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Server\Message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Server\Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Server\Interfaces\IServer.h">
@@ -60,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Server\Handlers\AsioSessionHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Server\Managers\SessionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
