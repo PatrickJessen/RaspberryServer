@@ -51,17 +51,3 @@ void AsioServerHandler::ListenForConnectionAsync()
         }
     }
 }
-
-void AsioServerHandler::HandleDisconnection()
-{
-    try
-    {
-        sessions.erase(std::remove_if(sessions.begin(), sessions.end(),
-            [](const auto& session) { return !session->GetIsAlive(); }),
-            sessions.end());
-    }
-    catch (std::exception e)
-    {
-        std::cout << "AsioServerHandler::HandleDisconnection() Exception caught: " << e.what() << "\n";
-    }
-}

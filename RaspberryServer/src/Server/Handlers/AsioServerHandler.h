@@ -14,7 +14,6 @@ public:
 	virtual void Connect(const std::string& ipAdress, const int& port) override;
 	virtual void Disconnect() override;
 	virtual void ListenForConnectionAsync() override;
-	virtual void HandleDisconnection() override;
 private:
 	int nextId = 0;
 };
