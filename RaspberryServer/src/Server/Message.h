@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 
-static std::mutex message_mutex;
+static std::mutex message_mutex; // TODO: Move this away from global variable
 // Message class uses template to be able to expand it in the future so we can recieve and send different objects over socket
 template <typename T>
 class Message
