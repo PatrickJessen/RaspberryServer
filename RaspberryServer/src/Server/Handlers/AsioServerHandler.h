@@ -10,6 +10,7 @@ class AsioServerHandler : public IServer
 {
 public:
 	AsioServerHandler(int port);
+	~AsioServerHandler();
 public:
 	virtual void Connect(const std::string& ipAdress, const int& port) override;
 	virtual void Disconnect() override;

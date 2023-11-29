@@ -1,4 +1,5 @@
 #include "AsioSessionHandler.h"
+#include "../Managers/ValidatorManager.h"
 #include <iostream>
 
 AsioSessionHandler::AsioSessionHandler(int id, tcp::socket socket)
@@ -23,9 +24,14 @@ void AsioSessionHandler::SendMessageAsync(const std::string& message)
                 }
             });
     }
-    catch (std::exception e)
-    {
-        std::cout << "AsioSessionHandler::SendMessageAsync() Exception caught: " << e.what() << std::endl;
+    catch (const boost::system::system_error& e) {
+        std::cerr << "Network Error: " << e.what() << "\n";
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << "Runtime Error: " << e.what() << "\n";
+    }
+    catch (const std::exception& e) {
+        std::cerr << "General Exception: " << e.what() << "\n";
     }
 }
 
@@ -38,7 +44,8 @@ void AsioSessionHandler::ReadMessageAsync()
             [this, self](boost::system::error_code ec,
                 std::size_t length) {
                     if (!ec) {
-                        if (data != "") {
+                        ValidatorManager validate;
+                        if (true/*validate.ValidateData(data)*/) {
                             message->PushBack(std::string(data, length));
                             if (!message->GetQueue().empty()) {
                                 std::cout << "Message received from id " << id << ": " << message->GetQueue().back().c_str() << std::endl;
@@ -64,9 +71,14 @@ void AsioSessionHandler::ReadMessageAsync()
                     }
             });
     }
-    catch (std::exception e)
-    {
-        std::cout << "AsioSessionHandler::ReadMessageAsync() Exception caught: " << e.what() << std::endl;
+    catch (const boost::system::system_error& e) {
+        std::cerr << "Network Error: " << e.what() << "\n";
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << "Runtime Error: " << e.what() << "\n";
+    }
+    catch (const std::exception& e) {
+        std::cerr << "General Exception: " << e.what() << "\n";
     }
 }
 

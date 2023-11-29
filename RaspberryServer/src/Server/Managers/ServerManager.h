@@ -14,7 +14,6 @@ public:
 
 private:
 	void ListenForConnectionAsync();
-	void HandleDisconnection();
 	void HandleMessages();
 
 private:
