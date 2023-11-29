@@ -45,7 +45,7 @@ void AsioSessionHandler::ReadMessageAsync()
                 std::size_t length) {
                     if (!ec) {
                         ValidatorManager validate;
-                        if (true/*validate.ValidateData(data)*/) {
+                        if (validate.ValidateData(data)) {
                             message->PushBack(std::string(data, length));
                             if (!message->GetQueue().empty()) {
                                 std::cout << "Message received from id " << id << ": " << message->GetQueue().back().c_str() << std::endl;

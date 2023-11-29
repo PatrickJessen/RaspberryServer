@@ -2,8 +2,7 @@
 
 const bool ValidatorManager::ValidateData(const std::string& data)
 {
-    std::string key = SeperateKeyFromString(data);
-    if (!CompareEncryptionKey(key, random_secret_key)) {
+    if (!CompareEncryptionKey(data, random_secret_key)) {
         return false;
     }
     return true;
@@ -11,17 +10,13 @@ const bool ValidatorManager::ValidateData(const std::string& data)
 
 const bool ValidatorManager::CompareEncryptionKey(const std::string& key1, const std::string& key2)
 {
-    return key1 == key2;
-}
-
-const std::string& ValidatorManager::SeperateKeyFromString(const std::string& str)
-{
-    std::string key = "";
-    std::string temp = "";
-    int start = str.find("key ");
-    int end = str.find("endKey ");
-    for (int i = start; i < end; i++) {
-        key += str[i];
+    // should use encryption library for this
+    if (key1.size() > key2.size()) {
+        return false;
     }
-    return key;
+    std::string temp = "";
+    for (int i = 0; i < key1.size(); i++) {
+        temp += key2[i];
+    }
+    return key1 == temp;
 }
