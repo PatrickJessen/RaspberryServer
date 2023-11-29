@@ -130,6 +130,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\TemperatureSensor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Interfaces\ISensor.h" />
+    <ClInclude Include="src\SensorManager.h" />
+    <ClInclude Include="src\TemperatureSensor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

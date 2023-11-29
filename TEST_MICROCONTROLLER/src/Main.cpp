@@ -1,5 +1,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
+#include "SensorManager.h"
+#include "TemperatureSensor.h"
 
 using namespace boost::asio;
 using namespace boost::asio::ip;
@@ -41,30 +43,33 @@ void sendData(tcp::socket& socket, const std::string& message)
 
 int main(int argc, char* argv[])
 {
-    bool connected = false;
-    io_service io_service;
-    // socket creation
-    ip::tcp::socket client_socket(io_service);
+    SensorManager<float>* sensor = new SensorManager<float>(new TemperatureSensor());
 
+
+    io_service io_service;
+    ip::tcp::socket client_socket(io_service);
     client_socket.connect(tcp::endpoint(address::from_string("127.0.0.1"), 9999));
-    connected = true;
+    bool connected = true;
+
+    std::string validationBody = "{secret_code}";
 
     sendData(client_socket, std::to_string((int)Component::MICROCONTROLLER));
     std::string response;
 
     std::thread(&getData, std::ref(client_socket)).detach();
-
-    std::vector<std::string> messages = { "Test Microcontroller", "Microcontroller data", "another Microcontroller message", "testing Microcontroller message" };
-
+    float temp = 0.0f;
     while (true) {
         try
         {
-            int r = rand() % messages.size();
-            std::string msg = messages[r];
-            sendData(client_socket, msg);
-            std::cout << "Send message: " << msg << "\n";
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            sensor->Poll();
+            float currentTemp = sensor->Read();
+            if (temp != currentTemp) {
+                temp = currentTemp;
+                std::string msg = validationBody;
+                msg.append(std::to_string(temp));
+                sendData(client_socket, msg);
+                std::cout << "Send message: " << msg << "\n";
+            }
         }
         catch (std::exception e)
         {
@@ -74,6 +79,7 @@ int main(int argc, char* argv[])
             connected = false;
             while (!connected)
             {
+                std::cout << "Reconnecting...\n";
                 try
                 {
                     client_socket.connect(tcp::endpoint(address::from_string("127.0.0.1"), 9999));
@@ -82,8 +88,9 @@ int main(int argc, char* argv[])
                 }
                 catch (std::exception e)
                 {
-
+                    std::cout << "Failed to reconnect\n";
                 }
+                std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             }
         }
     }

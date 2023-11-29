@@ -33,7 +33,7 @@ void AsioSessionHandler::ReadMessageAsync()
 {
     try
     {
-        //auto self(this);
+        auto self(shared_from_this());
         socket.async_read_some(buffer(data, BUFFER_SIZE),
             [this](boost::system::error_code ec,
                 std::size_t length) {
