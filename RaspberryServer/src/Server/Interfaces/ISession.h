@@ -25,4 +25,9 @@ public:
 	virtual const bool GetIsAlive() = 0;
 	virtual const SessionType& GetSessionType() = 0;
 	virtual Message<T>* GetMessageObj() = 0;
+public:
+	SessionType type;
+	Message<T>* message;
+	int id;
+	bool isAlive;
 };

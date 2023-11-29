@@ -13,6 +13,12 @@ AsioServerHandler::AsioServerHandler(int port)
     running = true;
 }
 
+AsioServerHandler::~AsioServerHandler()
+{
+    delete service;
+    delete acceptor;
+}
+
 void AsioServerHandler::Connect(const std::string& ipAdress, const int& port)
 {
 	service->run();
@@ -45,23 +51,14 @@ void AsioServerHandler::ListenForConnectionAsync()
             ListenForConnectionAsync();
                 });
         }
-        catch (std::exception e)
-        {
-            std::cout << "AsioServerHandler::ListenForConnectionAsync() Exception caught: " << e.what() << "\n";
+        catch (const boost::system::system_error& e) {
+            std::cerr << "Network Error: " << e.what() << "\n";
         }
-    }
-}
-
-void AsioServerHandler::HandleDisconnection()
-{
-    try
-    {
-        sessions.erase(std::remove_if(sessions.begin(), sessions.end(),
-            [](const auto& session) { return !session->GetIsAlive(); }),
-            sessions.end());
-    }
-    catch (std::exception e)
-    {
-        std::cout << "AsioServerHandler::HandleDisconnection() Exception caught: " << e.what() << "\n";
+        catch (const std::runtime_error& e) {
+            std::cerr << "Runtime Error: " << e.what() << "\n";
+        }
+        catch (const std::exception& e) {
+            std::cerr << "General Exception: " << e.what() << "\n";
+        }
     }
 }

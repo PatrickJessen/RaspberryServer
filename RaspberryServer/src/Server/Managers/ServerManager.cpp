@@ -30,18 +30,12 @@ void ServerManager::ListenForConnectionAsync()
 	server->ListenForConnectionAsync();
 }
 
-void ServerManager::HandleDisconnection()
-{
-	server->HandleDisconnection();
-}
-
 void ServerManager::HandleMessages()
 {
     while (server->running) {
         for (int i = 0; i < server->sessions.size(); i++) {
             try
             {
-                HandleDisconnection();
                 Message<std::string>* msg = server->sessions[i]->GetMessageObj();
                 if (msg->GetQueue().empty()) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -56,8 +50,8 @@ void ServerManager::HandleMessages()
                                 if (!msg->GetQueue().empty()) {
                                     std::string text = msg->GetQueue().front();
                                     server->sessions[k]->SendMessageAsync(text);
-                                    msg->PopFront();
                                     std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                                    msg->PopFront();
                                 }
                             }
                             catch (std::exception e)
@@ -66,6 +60,8 @@ void ServerManager::HandleMessages()
                             }
                         }
                     }
+                }
+                if (!msg->GetQueue().empty()) {
                 }
             }
             catch (std::exception e)

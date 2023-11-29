@@ -27,6 +27,9 @@
     <ClCompile Include="src\Server\Handlers\AsioSessionHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Server\Managers\ValidatorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Server\Message.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Server\Handlers\AsioSessionHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Server\Managers\ValidatorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

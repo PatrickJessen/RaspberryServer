@@ -5,7 +5,7 @@
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-class AsioSessionHandler : public ISession<std::string>, std::enable_shared_from_this<AsioSessionHandler>
+class AsioSessionHandler : public std::enable_shared_from_this<AsioSessionHandler>, public ISession<std::string>
 {
 public:
 	AsioSessionHandler(int id, tcp::socket socket);
@@ -20,8 +20,4 @@ private:
 	tcp::socket socket;
 	enum { BUFFER_SIZE = 1024 };
 	char data[BUFFER_SIZE]{};
-	SessionType type;
-	Message<std::string>* message;
-	int id;
-	bool isAlive;
 };
